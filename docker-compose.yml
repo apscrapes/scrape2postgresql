@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: books_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: books_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  scrapy:
+    build: .
+    container_name: books_scraper
+    depends_on:
+      - postgres
+    # Needed to process scrapy pipeline and add items to postgres database  
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: books_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    working_dir: /app/bookscraper
+    entrypoint: ["/bin/bash", "/app/run_spider.sh"]
+    # Run manually
+    restart: "no"
+
+volumes:
+  pgdata:
