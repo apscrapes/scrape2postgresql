@@ -143,6 +143,25 @@ TRUNCATE TABLE books RESTART IDENTITY;
 ```
 --
 
+## Teardown
+
+1. Stop running containers (db) without deleting existing data
+```
+make down
+```
+
+2. Remove all containers and persisitent data
+```
+make clean
+```
+
+3. Rebuild from docker-compose
+```
+make rebuild
+```
+
+----
+
 ## 🔧 How to adapt this project for your own scraping needs
 
 You can easily adapt this project to scrape other websites:
